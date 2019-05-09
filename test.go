@@ -32,6 +32,18 @@
       return day + ", " + year
   }
 
+  func (o otdEntry) introHTML() string {
+      md := markdown.New(markdown.HTML(true))
+
+      return md.RenderToString([]byte(o.Intro))
+  }
+
+  func (o otdEntry) docHTML() string {
+      md := markdown.New(markdown.HTML(true))
+
+      return md.RenderToString([]byte(o.Document))
+  }
+
   func readRandomFile() ([]byte, error) {
       var files []string
 
@@ -58,12 +70,10 @@
   }
 
   func renderEntry(entry otdEntry) []byte {
-      md := markdown.New(markdown.HTML(true))
-
       day := entry.date()
       title := entry.Title
-      intro := md.RenderToString([]byte(entry.Intro))
-      document := md.RenderToString([]byte(entry.Document))
+      intro := entry.introHTML()
+      document := entry.docHTML()
 
       output := "<h2>" + day + "</h2><h3>" + title +  "</h3>" + intro + "<blockquote>" + document + "</blockquote>"
 
