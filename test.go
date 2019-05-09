@@ -19,6 +19,13 @@
     Document string `yaml:"document"`
   }
 
+  func (o otdEntry) date() string {
+      day := time.Now().Format("January 2")
+      year := strconv.Itoa(o.Year)
+
+      return day + ", " + year
+  }
+
   var dirname string = "./content/otds/"
 
   func init() {
@@ -53,13 +60,12 @@
   func renderEntry(entry otdEntry) []byte {
       md := markdown.New(markdown.HTML(true))
 
-      day := time.Now().Format("January 2")
-      year := strconv.Itoa(entry.Year)
+      day := entry.date()
       title := entry.Title
       intro := md.RenderToString([]byte(entry.Intro))
       document := md.RenderToString([]byte(entry.Document))
 
-      output := "<h2>" + day + ", " + year + "</h2><h3>" + title +  "</h3>" + intro + "<blockquote>" + document + "</blockquote>"
+      output := "<h2>" + day + "</h2><h3>" + title +  "</h3>" + intro + "<blockquote>" + document + "</blockquote>"
 
       return []byte(output)
   }
