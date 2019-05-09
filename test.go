@@ -14,10 +14,16 @@
       "gopkg.in/yaml.v2"
   )
 
-  var dirname string = "./content/otds/"
+  var dirname string
 
   func init() {
       rand.Seed(time.Now().UnixNano())
+
+      if value, ok := os.LookupEnv("CONTENT_DIR"); ok {
+         dirname = value
+      } else {
+         dirname = "./content/otds/"
+      }
   }
 
   type otdEntry struct {
