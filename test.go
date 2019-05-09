@@ -8,6 +8,8 @@
       "path/filepath"
       "io/ioutil"
       "strconv"
+      "bytes"
+      "html/template"
       "gitlab.com/golang-commonmark/markdown"
       "gopkg.in/yaml.v2"
   )
@@ -25,23 +27,27 @@
     Document string `yaml:"document"`
   }
 
-  func (o otdEntry) date() string {
+  func (o otdEntry) Date() string {
       day := time.Now().Format("January 2")
       year := strconv.Itoa(o.Year)
 
       return day + ", " + year
   }
 
-  func (o otdEntry) introHTML() string {
+  func (o otdEntry) IntroHTML() template.HTML {
       md := markdown.New(markdown.HTML(true))
 
-      return md.RenderToString([]byte(o.Intro))
+      i := md.RenderToString([]byte(o.Intro))
+
+      return template.HTML(i)
   }
 
-  func (o otdEntry) docHTML() string {
+  func (o otdEntry) DocHTML() template.HTML {
       md := markdown.New(markdown.HTML(true))
 
-      return md.RenderToString([]byte(o.Document))
+      d := md.RenderToString([]byte(o.Document))
+
+      return template.HTML(d)
   }
 
   func readRandomFile() ([]byte, error) {
@@ -69,15 +75,18 @@
       return data, err
   }
 
-  func renderEntry(entry otdEntry) []byte {
-      day := entry.date()
-      title := entry.Title
-      intro := entry.introHTML()
-      document := entry.docHTML()
+  func renderEntry(entry otdEntry) ([]byte, error) {
+      tmpl := template.Must(template.ParseFiles("otdentry.html"))
 
-      output := "<h2>" + day + "</h2><h3>" + title +  "</h3>" + intro + "<blockquote>" + document + "</blockquote>"
+      var output bytes.Buffer
 
-      return []byte(output)
+      err := tmpl.Execute(&output, entry)
+
+      if err != nil {
+         return nil, err
+      }
+
+      return output.Bytes(), err
   }
 
   func main() {
@@ -95,6 +104,11 @@
           os.Exit(1)
       }
 
-      rendered := renderEntry(today)
+      rendered, err := renderEntry(today)
+      if err != nil {
+          fmt.Println(err)
+          os.Exit(1)
+      }
+
       fmt.Println(string(rendered))
   }
