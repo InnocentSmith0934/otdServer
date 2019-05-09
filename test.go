@@ -12,6 +12,12 @@
       "gopkg.in/yaml.v2"
   )
 
+  var dirname string = "./content/otds/"
+
+  func init() {
+      rand.Seed(time.Now().UnixNano())
+  }
+
   type otdEntry struct {
     Year int `yaml:"year"`
     Title string `yaml:"title"`
@@ -24,12 +30,6 @@
       year := strconv.Itoa(o.Year)
 
       return day + ", " + year
-  }
-
-  var dirname string = "./content/otds/"
-
-  func init() {
-      rand.Seed(time.Now().UnixNano())
   }
 
   func readRandomFile() ([]byte, error) {
