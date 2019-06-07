@@ -95,7 +95,8 @@
       return output.Bytes(), err
   }
 
-  func main() {
+  func otdRand() []byte {
+
 
       data, err := readRandomFile()
       if err != nil {
@@ -116,5 +117,5 @@
           os.Exit(1)
       }
 
-      fmt.Println(string(rendered))
+      return rendered
   }
