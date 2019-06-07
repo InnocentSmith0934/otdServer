@@ -1,7 +1,6 @@
  package main
 
   import (
-      "fmt"
       "os"
       "time"
       "math/rand"
@@ -95,27 +94,24 @@
       return output.Bytes(), err
   }
 
-  func otdRand() []byte {
+  func otdRand() ([]byte, error) {
 
 
       data, err := readRandomFile()
       if err != nil {
-          fmt.Println(err)
-          os.Exit(1)
+         return nil, err
       }
 
       today := otdEntry{}
       err = yaml.Unmarshal(data, &today)
       if err != nil {
-          fmt.Println(err)
-          os.Exit(1)
+         return nil, err
       }
 
       rendered, err := renderEntry(today)
       if err != nil {
-          fmt.Println(err)
-          os.Exit(1)
+         return nil, err
       }
 
-      return rendered
+      return rendered, nil
   }
