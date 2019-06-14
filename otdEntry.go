@@ -8,6 +8,8 @@
       "gitlab.com/golang-commonmark/markdown"
   )
 
+  var tmpl = template.Must(template.ParseFiles("otdEntry.html"))
+
   type otdEntry struct {
     Year int `yaml:"year"`
     Title string `yaml:"title"`
@@ -39,8 +41,6 @@
   }
 
   func renderEntry(entry otdEntry) ([]byte, error) {
-      tmpl := template.Must(template.ParseFiles("otdEntry.html"))
-
       var output bytes.Buffer
 
       err := tmpl.Execute(&output, entry)
