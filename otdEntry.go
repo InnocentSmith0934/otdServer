@@ -39,7 +39,7 @@
   }
 
   func renderEntry(entry otdEntry) ([]byte, error) {
-      tmpl := template.Must(template.ParseFiles("otdentry.html"))
+      tmpl := template.Must(template.ParseFiles("otdEntry.html"))
 
       var output bytes.Buffer
 
