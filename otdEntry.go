@@ -2,10 +2,11 @@ package main
 
 import (
 	"bytes"
-	"gitlab.com/golang-commonmark/markdown"
 	"html/template"
 	"strconv"
 	"time"
+
+	"gitlab.com/golang-commonmark/markdown"
 )
 
 var tmpl = template.Must(template.ParseFiles("otdEntry.html"))

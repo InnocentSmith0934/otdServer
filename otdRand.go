@@ -1,12 +1,13 @@
 package main
 
 import (
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"math/rand"
 	"os"
 	"path/filepath"
 	"time"
+
+	"gopkg.in/yaml.v2"
 )
 
 func init() {
