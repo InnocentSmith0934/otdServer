@@ -5,10 +5,12 @@ import (
         "log"
 )
 
+const contentDir = "./content/otds/"
+
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
   var o []byte
   var err error
-  o, err = otdRand()
+  o, err = otdRand(contentDir)
 
   if err != nil {
       http.Error(w, err.Error(), http.StatusInternalServerError)

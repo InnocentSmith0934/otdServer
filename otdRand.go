@@ -9,20 +9,12 @@
       "gopkg.in/yaml.v2"
   )
 
-  var dirname string
-
   func init() {
       rand.Seed(time.Now().UnixNano())
-
-      if value, ok := os.LookupEnv("CONTENT_DIR"); ok {
-         dirname = value
-      } else {
-         dirname = "./content/otds/"
-      }
   }
 
 
-  func readRandomFile() ([]byte, error) {
+  func readRandomFile(dirname string) ([]byte, error) {
       var files []string
 
       // make a slice containing names of all regular files with .yaml extension
@@ -47,8 +39,8 @@
       return data, err
   }
 
-  func otdRand() ([]byte, error) {
-      data, err := readRandomFile()
+  func otdRand(dirname string) ([]byte, error) {
+      data, err := readRandomFile(dirname)
       if err != nil {
          return nil, err
       }
